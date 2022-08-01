@@ -1,37 +1,39 @@
 import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  GithubAuthProvider,
+    getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    GithubAuthProvider,
 } from "firebase/auth";
 
 class AuthService {
-  constructor(app) {
-    this.firebaseAuth = getAuth(app);
-    this.googleProvider = new GoogleAuthProvider();
-    this.githubProvider = new GithubAuthProvider();
-  }
-
-  getProvider(providerName) {
-    switch (providerName) {
-      case "Google":
-        return this.googleProvider;
-      case "Github":
-        return this.githubProvider;
-      default:
-        throw new Error(`not supported provider: ${providerName}`);
+    constructor(app) {
+        this.firebaseAuth = getAuth(app);
+        this.googleProvider = new GoogleAuthProvider();
+        this.githubProvider = new GithubAuthProvider();
     }
-  }
 
-  login(providerName) {
-    const authProvider = this.getProvider(providerName);
-    return signInWithPopup(this.firebaseAuth, authProvider);
-    // return firebase.auth().signInWithPopup(authProvider);
-  }
+    getProvider(providerName) {
+        switch (providerName) {
+            case "Google":
+                return this.googleProvider;
+            case "Github":
+                return this.githubProvider;
+            default:
+                throw new Error(`not supported provider: ${providerName}`);
+        }
+    }
 
-  onAuthChange(onUserChaned) {
-    this.firebaseAuth.onAuthStateChanged((user) => {});
-  }
+    login(providerName) {
+        const authProvider = this.getProvider(providerName);
+        return signInWithPopup(this.firebaseAuth, authProvider);
+        // return firebase.auth().signInWithPopup(authProvider);
+    }
+
+    onAuthChange(onUserChanged) {
+        this.firebaseAuth.onAuthStateChanged((user) => {
+            onUserChanged(user);
+        });
+    }
 }
 
 export default AuthService;
