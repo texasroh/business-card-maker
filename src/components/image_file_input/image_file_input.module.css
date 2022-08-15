@@ -1,34 +1,16 @@
-@value makerBlack, makerWhite from '../../common/colors.css';
+@value makerLightGrey from '../../common/colors.css';
 
-.form {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    border-top: 1px solid makerBlack;
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
 
-.input,
-.textarea,
-.select,
-.button,
-.fileInput {
-    font-size: 0.3rem;
-    width: 100%;
-    border: 0;
-    padding: 0.5em;
-    border-bottom: 1px solid makerBlack;
-    border-right: 1px solid makerBlack;
-    background: makerWhite;
+.input {
+  display: none;
 }
 
-.input,
-.select {
-    flex: 1 1 30%;
-}
-
-.input:focus,
-.textarea:focus,
-.select:focus,
-.button:focus {
-    outline: 0;
+.button {
+  width: 100%;
+  background-color: makerLightGrey;
 }
