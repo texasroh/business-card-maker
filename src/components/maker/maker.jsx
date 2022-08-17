@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./maker.module.css";
 import Header from "../header/header";
 import Footer from "../footer/footer";
@@ -12,9 +12,9 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
     const [userId, setUserId] = useState(navigateState && navigateState.id);
 
     const navigate = useNavigate();
-    const onLogout = () => {
+    const onLogout = useCallback(() => {
         authService.logout();
-    };
+    }, [authService]);
 
     useEffect(() => {
         if (!userId) {
@@ -34,18 +34,24 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
         });
     }, [userId, navigate, authService]);
 
-    const createOrUpdateCard = (card) => {
-        const updated = { ...cards };
-        updated[card.id] = card;
-        setCards(updated);
-        cardRepository.saveCard(userId, card);
-    };
-    const deleteCard = (card) => {
-        const updated = { ...cards };
-        delete updated[card.id];
-        setCards(updated);
-        cardRepository.removeCard(userId, card);
-    };
+    const createOrUpdateCard = useCallback(
+        (card) => {
+            const updated = { ...cards };
+            updated[card.id] = card;
+            setCards(updated);
+            cardRepository.saveCard(userId, card);
+        },
+        [cardRepository, userId, cards]
+    );
+    const deleteCard = useCallback(
+        (card) => {
+            const updated = { ...cards };
+            delete updated[card.id];
+            setCards(updated);
+            cardRepository.removeCard(userId, card);
+        },
+        [cards, cardRepository, userId]
+    );
     return (
         <section className={styles.maker}>
             <Header onLogout={onLogout} />
