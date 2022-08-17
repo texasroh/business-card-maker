@@ -7,9 +7,9 @@ class CardRepository {
   }
 
   syncCards(userId, onUpdate) {
-    const sync_ref = ref(this.db, `${userId}/cards`);
+    const syncRef = ref(this.db, `${userId}/cards`);
     onValue(
-      sync_ref,
+      syncRef,
       (snapshot) => {
         const value = snapshot.val();
         value && onUpdate(value);
